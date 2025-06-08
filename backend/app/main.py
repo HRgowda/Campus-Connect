@@ -1,9 +1,8 @@
 """Main FastApi application"""
 
 from fastapi import FastAPI
-from . import models
 from app.database import engine, Base
-from app.models import user
+from app.routers import user_auth
 
 Base.metadata.create_all(bind = engine)
 
@@ -12,6 +11,8 @@ app = FastAPI(
   description="Backend API for campus connect application",
   version="1.0.0"
 )
+
+app.include_router(user_auth.router)
 
 @app.get("/")
 async def root():
