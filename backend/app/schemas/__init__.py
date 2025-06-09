@@ -1,8 +1,10 @@
-from .user_schema import CreateStudent, CreateProfessor, UserLogin, UserResponse, Token
+from .user_schema import CreateStudent, CreateProfessor, UserResponse, Token, StudentLogin, ProfessorLogin
 
 __all__ = [
   "CreateStudent",
   "CreateProfessor",
-  "UserLogin",
+  "StudentLogin",
+  "ProfessorLogin"
   "UserResponse"
+  "Token"
 ]

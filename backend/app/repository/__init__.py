@@ -1,5 +1,5 @@
-from .user_repository import UserRepository
+from .user_repository import StudentRepository
 
 __all__ = [
-  "UserRepository"
+  "StudentRepository"
 ]

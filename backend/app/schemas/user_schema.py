@@ -18,8 +18,14 @@ class CreateProfessor(BaseModel):
   email: EmailStr
   password: str
   
-class UserLogin(BaseModel):
-  """Schema for both student and professor login."""
+class StudentLogin(BaseModel):
+  """Schema for student login."""
+  
+  usn: str
+  password: str
+  
+class ProfessorLogin(BaseModel):
+  """Schema for Porfessor login"""
   
   email: EmailStr
   password: str
