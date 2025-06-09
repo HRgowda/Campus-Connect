@@ -1,6 +1,6 @@
-# Campus Connect Backend - Progress Log (Windows Version) 
+# Campus Connect Backend - Progress Log (Windows Version)
 
-** Date : 08-06-2025
+**Date : 08-06-2025**
 
 ## Project Initialization
 
@@ -33,8 +33,7 @@
 
 6. **Created and activated virtual environment:**
    ```bash
-   a. poetry env activate
-
+   a. poetry env activate 
    b. C:\Users\Hemanth\AppData\Local\pypoetry\Cache\virtualenvs\backend-env-5iVuOTuH-py3.12\Scripts\activate.bat
    ```
 
@@ -135,5 +134,55 @@ backend\
 
 - Used SQLite extension in VSCode to open: `campus_connect.db`
 - Confirmed `students` and `professors` tables were created
+
+---
+
+**Date : 10-06-2025**
+
+## Folder Architecture Documentation
+
+### Folder Descriptions for Campus Connect Backend
+
+#### 1. models/
+> Defines the database structure using SQLAlchemy ORM.
+- Contains Python classes that represent database tables (e.g., User, Student, Professor).
+- These models inherit from Base and map to tables using declarative syntax.
+- Used by repositories and Alembic for database operations and migrations.
+
+#### 2. schemas/
+> Houses Pydantic models that define request and response shapes.
+- These are used for data validation and serialization.
+- Examples: UserCreate, UserLogin, UserResponse, Token.
+- Ensures that incoming request bodies are validated and outgoing responses are well-structured.
+
+#### 3. repositories/
+> Responsible for raw database operations and queries.
+- Each repository class contains logic to interact with models using SQLAlchemy.
+- Promotes separation of concerns by isolating direct DB operations from business logic.
+- Example methods: get_by_email(), create(), exists_by_email().
+
+#### 4. services/
+> Contains business logic and application-specific processing.
+- Acts as an intermediary between routers and repositories.
+- Handles tasks like user registration, password hashing, token generation, etc.
+- Encourages reuse and clean layering of logic (e.g., AuthService, DocumentProcessingService).
+
+#### 5. utils/
+> Utility functions and helpers used across the application.
+- Includes functions for authentication (create_access_token, verify_password, etc.).
+- May also include date converters, file processors, or other reusable logic.
+- Keeps your services and routes clean by offloading generic operations.
+
+#### 6. routers/
+> Contains route definitions and API endpoint handlers.
+- Splits the API into modular route groups (e.g., /auth, /user).
+- Uses FastAPI's APIRouter to keep routes organized.
+- Responsible only for request handling and delegating work to services.
+
+#### 7. main.py
+> The entry point of the FastAPI application.
+- Initializes the FastAPI app with title, description, and version.
+- Registers routes using app.include_router().
+- Handles startup/shutdown events if needed.
 
 ---
