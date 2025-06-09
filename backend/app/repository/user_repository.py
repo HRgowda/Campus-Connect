@@ -2,13 +2,14 @@
 
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from app.schemas import CreateStudent, StudentLogin
+from app.schemas import CreateStudent, CreateProfessor
 from app.models import Students, Professors
 from typing import Optional
 from uuid import UUID
-from app.utils import verify_password, hash_password
+from app.utils import hash_password
 
 class StudentRepository:
+  """Handles student-related database operations."""
   
   def __init__(self, db: Session):
     self.db = db
@@ -38,6 +39,33 @@ class StudentRepository:
     return self.db.execute(query).scalar_one_or_none
   
   def student_exists_by_email(self, email: str) -> bool:
-    """Check if user exists by email"""
+    """Check if student exists by email"""
     return self.get_student_by_email(email) is not None
   
+class ProfessorRepository:
+  """Handles professor-related database operations."""
+  
+  def __init__(self, db: Session):
+    self.db = db
+    
+  def createProfessor(self, data: CreateProfessor) -> Professors:
+    professor = Professors(
+      name = data.name,
+      email = data.email,
+      password = hash_password(data.password)
+    )
+    self.db.add(professor)
+    self.db.commit()
+    self.db.refresh(professor)
+    return professor
+  
+  def get_by_email(self, email: str) -> Optional[Professors]:
+    query = select(Professors).where(Professors.email == email)
+    return self.db.execute(query).scalar_one_or_none()
+  
+  def get_by_id(self, professorId: UUID) -> Optional[Professors]:
+    query = select(Professors).where(Professors.id == professorId)
+    return self.db.execute(query).scalar_one_or_none()
+  
+  def exists_by_email(self, email: str) -> bool:
+    return self.get_by_email(email) is not None
