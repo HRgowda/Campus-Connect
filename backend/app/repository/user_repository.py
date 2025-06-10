@@ -36,7 +36,7 @@ class StudentRepository:
   
   def get_student_by_usn(self, usn: str) -> Optional[Students]:
     query = select(Students).where(Students.usn == usn)
-    return self.db.execute(query).scalar_one_or_none
+    return self.db.execute(query).scalar_one_or_none()
   
   def student_exists_by_email(self, email: str) -> bool:
     """Check if student exists by email"""
