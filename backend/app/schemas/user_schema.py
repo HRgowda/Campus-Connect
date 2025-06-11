@@ -34,7 +34,9 @@ class UserResponse(BaseModel):
   """Schema for user response."""
   
   id: UUID
-  email: str
+  email: str | None = None
+  usn: str | None = None
+  role: str
   
 class Token(BaseModel):
   """Schema for JWT response."""
