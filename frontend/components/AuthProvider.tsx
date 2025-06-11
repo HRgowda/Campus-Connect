@@ -28,28 +28,37 @@ export default function AuthProvider({ children }: Props) {
 
   const checkAuth = async () => {
     try {
-      setIsLoading(true)
-      const res = await axiosInstance.get("/me")
+      const res = await axiosInstance.get("/me", { withCredentials: true })
       const userData: User = res.data
       setUser(userData)
 
-      localStorage.setItem("role", userData.role)
-
-      // If user is at login page but already logged in, redirect
-      if (pathname === "/student/signin" && userData.role === "student") {
-        router.push("/student/home")
-      } else if (pathname === "/professor/signin" && userData.role === "professor") {
-        router.push("/professor/home")
+      const currentRole = localStorage.getItem("role")
+      if (userData.role && userData.role !== currentRole) {
+        localStorage.setItem("role", userData.role)
       }
+
+      // Redirect logic for authenticated users
+      if (userData.role === "student") {
+        if (["/student/signin", "/"].includes(pathname)) {
+          router.replace("/student/home")
+        }
+      } else if (userData.role === "professor") {
+        if (["/professor/signin", "/"].includes(pathname)) {
+          router.replace("/professor/home")
+        }
+      }
+
     } catch {
       setUser(null)
-      localStorage.removeItem("role")
+      const role = localStorage.getItem("role")
 
-      // Handle protected route redirect
-      if (pathname.startsWith("/student")) {
-        router.push("/student/signin")
-      } else if (pathname.startsWith("/professor")) {
-        router.push("/professor/signin")
+      // Redirect logic for unauthenticated users
+      if (role === "student" && pathname !== "/student/signin") {
+        router.replace("/student/signin")
+      } else if (role === "professor" && pathname !== "/professor/signin") {
+        router.replace("/professor/signin")
+      } else if (!role && !["/student/signin", "/professor/signin"].includes(pathname)) {
+        router.replace("/") // Default redirect if no role
       }
     } finally {
       setIsLoading(false)
@@ -58,24 +67,16 @@ export default function AuthProvider({ children }: Props) {
 
   const logout = async () => {
     try {
-      await axiosInstance.post("/logout")
+      await axiosInstance.post("/logout", {}, { withCredentials: true })
     } catch {}
-
     localStorage.removeItem("role")
     setUser(null)
     router.push("/")
   }
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated: !!user,
-        isLoading,
-        logout,
-      }}
-    >
-      {children}
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, logout }}>
+      {isLoading ? null : children}
     </AuthContext.Provider>
   )
 }
