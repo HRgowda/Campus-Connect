@@ -5,7 +5,6 @@ from fastapi import APIRouter, Depends, status, Response
 from sqlalchemy.orm import Session
 from app.services.auth_service import StudentAuthService, ProfessorAuthService
 import os
-from jose import jwt, JWTError
 from app.utils import get_current_user
 
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")
@@ -32,7 +31,7 @@ async def studentSignin(response: Response, student_data: StudentLogin, db: Sess
     key="access_token",
     value=f"Bearer {token.access_token}",
     httponly=True,
-    secure=True,
+    secure=False,
     samesite="lax",
     max_age=24 * 60 * 60
   )
@@ -53,7 +52,7 @@ async def professorSignin(response: Response, professorData: ProfessorLogin, db:
     key="access_token",
     value=f"Bearer {token.access_token}",
     httponly=True,
-    secure=True,
+    secure=False,
     samesite="lax",
     max_age=24*60*60
   )
