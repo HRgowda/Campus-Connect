@@ -20,7 +20,12 @@ class StudentAuthService:
        
      student = self.student_repo.createStudent(data)
      
-     return student
+     return UserResponse(
+       id = student.id,
+       email = None,
+       usn = student.usn,
+       role = "student"
+     )
    
   def student_login(self, data: StudentLogin) -> Token:
     """Authenticate Student and return JWT token."""
@@ -34,7 +39,8 @@ class StudentAuthService:
       )
     
     access_token = create_token(data={
-      "sub": data.usn
+      "sub": data.usn,
+      "role": "student"
     })
     
     return Token(access_token=access_token)
@@ -55,21 +61,27 @@ class ProfessorAuthService:
       
     professor = self.professor_repo.createProfessor(data=data)
     
-    return professor
+    return UserResponse(
+      id = professor.id,
+      email = professor.email,
+      usn = None,
+      role = "professor"
+    )
   
   def login_Professor(self, data: ProfessorLogin) -> Token:
     """Authentication Professor and return JWT token."""
     
     professor = self.professor_repo.get_by_email(data.email)
     
-    if not professor and verify_password(data.password, professor.password):
+    if not professor or not verify_password(data.password, professor.password):
       raise HTTPException(
         status_code=status.HTTP_400_BAD_REQUEST,
         detail="Invalid Email or password."
       )
     
     access_token = create_token(data={
-      "sub": data.email
+      "sub": data.email,
+      "role": "professor"
     })
     
     return Token(access_token = access_token)
