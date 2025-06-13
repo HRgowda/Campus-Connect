@@ -37,6 +37,7 @@ class UserResponse(BaseModel):
   email: str | None = None
   usn: str | None = None
   role: str
+  name: str
   
 class Token(BaseModel):
   """Schema for JWT response."""

@@ -59,6 +59,20 @@ async def professorSignin(response: Response, professorData: ProfessorLogin, db:
   
   return token
 
+@router.post('/logout', status_code=status.HTTP_200_OK)
+async def lagout(response: Response):
+  """Remove the cookie from the browser"""
+  
+  response.delete_cookie(
+    key="access_token",
+    httponly=True,
+    samesite="lax"    
+  )
+  
+  return {
+    "message": "Logged out successfully"
+  }
+  
 @router.get("/me")
 async def get_me(current_user: dict = Depends(get_current_user)) -> UserResponse:
   user = current_user["user"]
@@ -68,5 +82,6 @@ async def get_me(current_user: dict = Depends(get_current_user)) -> UserResponse
     id = user.id,
     email = getattr(user, "email", None),
     usn = getattr(user, "role", None),
-    role = role
+    role = role,
+    name = user.name
   )
