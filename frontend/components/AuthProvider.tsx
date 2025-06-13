@@ -58,7 +58,7 @@ export default function AuthProvider({ children }: Props) {
         } else if (role === "professor" && pathname !== "/professor/signin") {
           hasRedirected.current = true
           router.replace("/professor/signin")
-        } else if (!role && !["/student/signin", "/professor/signin", "/"].includes(pathname)) {
+        } else if (!role && !["/student/signin", "/professor/signin", "/student/signup", "/professor/signup", "/"].includes(pathname)) {
           hasRedirected.current = true
           router.replace("/")
         }
