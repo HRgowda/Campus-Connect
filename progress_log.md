@@ -186,3 +186,65 @@ backend\
 - Handles startup/shutdown events if needed.
 
 ---
+
+**Date: 11-06-2025**
+
+## Mistakes Made
+
+### 1. Secure Cookie in Development
+- Initially set `secure=True` for cookies during local development, which prevented cookies from being sent over HTTP.
+- **Fix:** Temporarily set `secure=False` in `response.set_cookie` for development environments only.
+
+### 2. JWT Authentication Issue
+- Backend `/me` route returned 403 due to missing `Authorization` header.
+- **Cause:** Axios instance was not configured to include cookies with requests.
+- **Fix:** Updated Axios config with `withCredentials: true`.
+
+### 3. Incorrect Redirection on Refresh
+- After login, user was redirected correctly to `/student/home` or `/professor/home`, but on page refresh, the app redirected to `/signin`.
+- **Cause:** `AuthProvider` ran before the cookie-authenticated user was available, or `/me` request was not firing.
+- **Fix:** Ensured `/me` is requested on every load, and cookie is used for auth. Also updated Axios setup.
+
+### 4. Improper Role Display
+- Mistakenly displayed `"role"` value in place of `usn` in the `/me` response.
+- **Fix:** Updated response model to return actual `usn` for students.
+
+## Learnings
+
+### 1. Cookies & Authentication
+- Cookies with `HttpOnly`, `SameSite`, and `Secure` flags are crucial for secure session-based authentication.
+- Local development should avoid `secure=True` unless using HTTPS locally.
+
+### 2. Axios with Credentials
+- To support cookie-based auth, always set `withCredentials: true` in both Axios instance and CORS setup on backend.
+
+### 3. AuthContext Usage in Next.js
+- Delayed context population can lead to unauthorized redirects. It's important to check the current path and only redirect once auth status is confirmed.
+
+### 4. Network Debugging
+- Always verify `/me` or auth endpoints are being called on each page load via browser's Network tab.
+
+### 5. UI Feedback Patterns
+- Using `sonner` toast notifications to give feedback for login/signup actions improves user experience.
+- Role-based redirection improves clarity for students and professors.
+
+## Feature Implementations
+
+### 1. Login Form with Role-Based Logic
+- Implemented conditional fields (USN for students, Email for professors).
+- Added toast notifications for both success and failure states.
+- On successful login, users are redirected to respective dashboards.
+
+### 2. Signup Form with Role Awareness
+- Created a unified signup form for students and professors.
+- On successful signup, displays a toast and redirects to respective `/signin` pages.
+
+### 3. AuthProvider Setup
+- Built a shared `AuthProvider` using `Context API`.
+- Fetches user data from `/me` endpoint.
+- Handles automatic redirect based on login status and role.
+- Also supports logout functionality and syncs role in localStorage.
+
+### 4. Axios Configuration
+- Created `axios.ts` with `withCredentials: true` to ensure cookies are sent with each request.
+- Used centralized `axiosInstance` across the project for cleaner API usage.

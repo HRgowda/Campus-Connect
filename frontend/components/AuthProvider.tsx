@@ -1,6 +1,5 @@
 "use client"
-
-import { useEffect, useState, ReactNode } from "react"
+import { useEffect, useState, ReactNode, useRef } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import axiosInstance from "@/lib/axios"
 import AuthContext from "@/app/context/AuthContext"
@@ -12,53 +11,57 @@ interface User {
   role: "student" | "professor"
 }
 
-interface Props {
-  children: ReactNode
-}
+interface Props { children: ReactNode }
 
 export default function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const pathname = usePathname()
+  const hasRedirected = useRef(false)
 
   useEffect(() => {
-    checkAuth()
-  }, [])
+    if (!hasRedirected.current) checkAuth()
+  }, [pathname])
 
   const checkAuth = async () => {
     try {
-      const res = await axiosInstance.get("/me", { withCredentials: true })
+      const res = await axiosInstance.get("/me")
       const userData: User = res.data
       setUser(userData)
+      localStorage.setItem("role", userData.role)
 
-      const currentRole = localStorage.getItem("role")
-      if (userData.role && userData.role !== currentRole) {
-        localStorage.setItem("role", userData.role)
-      }
-
-      // Redirect logic for authenticated users
-      if (userData.role === "student") {
-        if (["/student/signin", "/"].includes(pathname)) {
+      if (!hasRedirected.current) {
+        if (userData.role === "student" && ["/", "/student/signin"].includes(pathname)) {
+          hasRedirected.current = true
           router.replace("/student/home")
-        }
-      } else if (userData.role === "professor") {
-        if (["/professor/signin", "/"].includes(pathname)) {
+        } else if (userData.role === "professor" && ["/", "/professor/signin"].includes(pathname)) {
+          hasRedirected.current = true
           router.replace("/professor/home")
         }
       }
-
-    } catch {
+    } catch (err) {
       setUser(null)
       const role = localStorage.getItem("role")
 
-      // Redirect logic for unauthenticated users
-      if (role === "student" && pathname !== "/student/signin") {
-        router.replace("/student/signin")
-      } else if (role === "professor" && pathname !== "/professor/signin") {
-        router.replace("/professor/signin")
-      } else if (!role && !["/student/signin", "/professor/signin"].includes(pathname)) {
-        router.replace("/") // Default redirect if no role
+      if (!hasRedirected.current) {
+        if (pathname === "/") {
+          hasRedirected.current = true
+          router.replace(role === "student"
+            ? "/student/signin"
+            : role === "professor"
+            ? "/professor/signin"
+            : "/")
+        } else if (role === "student" && pathname !== "/student/signin") {
+          hasRedirected.current = true
+          router.replace("/student/signin")
+        } else if (role === "professor" && pathname !== "/professor/signin") {
+          hasRedirected.current = true
+          router.replace("/professor/signin")
+        } else if (!role && !["/student/signin", "/professor/signin", "/"].includes(pathname)) {
+          hasRedirected.current = true
+          router.replace("/")
+        }
       }
     } finally {
       setIsLoading(false)
@@ -67,7 +70,7 @@ export default function AuthProvider({ children }: Props) {
 
   const logout = async () => {
     try {
-      await axiosInstance.post("/logout", {}, { withCredentials: true })
+      await axiosInstance.post("/logout")
     } catch {}
     localStorage.removeItem("role")
     setUser(null)
