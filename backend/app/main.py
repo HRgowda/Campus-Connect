@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.routers import user_auth
+from app.routers import student, professor, auth
 
 Base.metadata.create_all(bind = engine)
 
@@ -22,7 +22,14 @@ app.add_middleware(
   expose_headers = ["*"]
 )
 
-app.include_router(user_auth.router)
+# Professor management routes
+app.include_router(professor.router)
+
+# Student management routes
+app.include_router(student.router)
+
+# Global auth routes
+app.include_router(auth.router)
 
 @app.get("/")
 async def root():
