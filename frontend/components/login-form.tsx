@@ -15,6 +15,7 @@ import { toast } from "sonner"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
+import { useLoader } from "@/app/context/LoaderContext"
 
 type LoginFormProps = React.ComponentProps<"div"> & {
   userType: "student" | "professor"
@@ -22,7 +23,7 @@ type LoginFormProps = React.ComponentProps<"div"> & {
 
 export function LoginForm({ className, userType, ...props }: LoginFormProps) {
   const router = useRouter()
-
+  const {showLoader, hideLoader} = useLoader()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [usn, setUsn] = useState("")
@@ -31,6 +32,7 @@ export function LoginForm({ className, userType, ...props }: LoginFormProps) {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    showLoader()
 
     try {
       let res
@@ -77,6 +79,7 @@ export function LoginForm({ className, userType, ...props }: LoginFormProps) {
       })
     } finally {
       setLoading(false)
+      hideLoader()
     }
   }
 

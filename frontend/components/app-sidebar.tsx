@@ -43,7 +43,7 @@ export function AppSidebar({ userType }: AppSidebarProps) {
         { title: "Campus Feed", icon: Home, url: "/feed" },
         { title: "Channels", icon: Users, url: "/channels" },
         { title: "Notes & Resources", icon: BookText, url: "/resources" },
-        { title: "Resume Analyzer", icon: FilePlus, url: "/resume" },
+        { title: "Resume Analyzer", icon: FilePlus, url: "/student/resume_analyzer" },
         { title: "Feedback Portal", icon: MessageCircle, url: "/feedback" },
       ]
     : [
