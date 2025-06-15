@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.routers import student, professor, auth
+from app.utils import limiter, rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
 Base.metadata.create_all(bind = engine)
 
@@ -21,6 +23,9 @@ app.add_middleware(
   allow_headers = ["*"],
   expose_headers = ["*"]
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, rate_limit_exceeded_handler)
 
 # Professor management routes
 app.include_router(professor.router)
