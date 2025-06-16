@@ -43,10 +43,23 @@ export default function ResumeAnalyzerPage() {
         },
       })
       setAnalysis(response.data.analysis)
-    } catch (error) {
-      console.error("Error submitting resume:", error)
-      toast("Failed to analyze resume. Please try again.")
-    } finally {
+    } catch (error: any) {
+        const defaultMessage = "Something went wrong. Please try again.";
+
+        if (axios.isAxiosError(error)) {
+          const status = error.response?.status;
+          const message = error.response?.data?.detail;
+
+          if (status === 429) {
+            toast.error(message || "Too many requests. Try again later.");
+          } else {
+            toast.error(message || defaultMessage);
+          }
+        } else {
+          toast.error(defaultMessage);
+        }
+      }
+    finally {
       hideLoader()
       setIsLoading(false)
     }

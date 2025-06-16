@@ -23,35 +23,35 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/lib/axios"
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface AppSidebarProps {
   userType: "student" | "professor";
 }
 
 export function AppSidebar({ userType }: AppSidebarProps) {
-
+  const router = useRouter()
   const [userName, setuserName] = useState<string>("")
   const [userEmail, setuserEmail] = useState<string>("")
 
   const sidebarItems = userType === "student"
     ? [
         { title: "Home", icon: LayoutDashboard, url: "/student/home" },
-        { title: "Campus Feed", icon: Home, url: "/feed" },
-        { title: "Channels", icon: Users, url: "/channels" },
-        { title: "Notes & Resources", icon: BookText, url: "/resources" },
+        { title: "Campus Feed", icon: Home, url: "/student/feed" },
+        { title: "Channels", icon: Users, url: "/student/channels" },
+        { title: "Notes & Resources", icon: BookText, url: "/student/resources" },
         { title: "Resume Analyzer", icon: FilePlus, url: "/student/resume_analyzer" },
-        { title: "Feedback Portal", icon: MessageCircle, url: "/feedback" },
+        { title: "Feedback Portal", icon: MessageCircle, url: "/student/feedback" },
       ]
     : [
         { title: "Home", icon: LayoutDashboard, url: "/professor/home" },
-        { title: "Campus Feed", icon: Home, url: "/feed" },
-        { title: "Channels", icon: Users, url: "/channels" },
-        { title: "Upload Resources", icon: FilePlus, url: "/upload" },
-        { title: "Student Feedback", icon: NotebookPen, url: "/feedbacks" },
+        { title: "Campus Feed", icon: Home, url: "/professor/feed" },
+        { title: "Channels", icon: Users, url: "/professor/channels" },
+        { title: "Upload Resources", icon: FilePlus, url: "/professor/upload" },
+        { title: "Student Feedback", icon: NotebookPen, url: "/professor/feedbacks" },
       ];
 
   useEffect(() => {
@@ -121,9 +121,9 @@ export function AppSidebar({ userType }: AppSidebarProps) {
 
         {/* Footer Section */}
         <div className="p-4 border-t border-white/10 flex justify-between items-center">
-          <div className="flex items-center gap-3">
+          <div  className="flex items-center gap-3">
             <Avatar className="h-10 w-10">
-              <AvatarImage src="https://github.com/shadcn.png" alt="User" />
+              <AvatarImage src="/image1.jpeg" alt="User" onClick={() => router.push("/student/profile")} className="cursor-pointer" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="text-white text-sm">
