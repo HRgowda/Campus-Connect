@@ -3,7 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.routers import student, professor, auth
+from app.routers import student, professor, auth, channel
 from app.utils import limiter, rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -32,6 +32,9 @@ app.include_router(professor.router)
 
 # Student management routes
 app.include_router(student.router)
+
+# Channel management routes
+app.include_router(channel.router)
 
 # Global auth routes
 app.include_router(auth.router)
