@@ -24,6 +24,7 @@ class StudentAuthService:
        id = student.id,
        email = None,
        usn = student.usn,
+       name = student.name,
        role = "student"
      )
    
