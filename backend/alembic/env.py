@@ -14,6 +14,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 # Import your Base with models imported inside
 from app.database import Base
+from app.models.user import Students, Professors
+from app.models.channel import Channel, ChannelMember, Message
 
 # Alembic Config object, gives access to .ini file settings
 config = context.config
