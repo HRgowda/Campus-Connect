@@ -11,11 +11,11 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { toast } from "sonner"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import { useLoader } from "@/app/context/LoaderContext"
+import { showSuccessToast, showErrorToast } from "@/lib/toastUtils"
 
 type LoginFormProps = React.ComponentProps<"div"> & {
   userType: "student" | "professor"
@@ -55,13 +55,7 @@ export function LoginForm({ className, userType, ...props }: LoginFormProps) {
         // Save role in localStorage
         localStorage.setItem("role", userType)
 
-        toast("Logged in successfully!", {
-          style: {
-            backgroundColor: "#14532D",
-            color: "#fff",
-            border: "1px solid #4ADE80",
-          },
-        })
+        showSuccessToast("Logged in successfully!")
 
         setTimeout(() => {
           router.push(userType === "student" ? "/student/home" : "/professor/home")
@@ -70,13 +64,7 @@ export function LoginForm({ className, userType, ...props }: LoginFormProps) {
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.detail || "Error while logging in. Please try again."
-      toast(errorMessage, {
-        style: {
-          backgroundColor: "#450a0a",
-          color: "#fff",
-          border: "1px solid #f87171",
-        },
-      })
+      showErrorToast(errorMessage)
     } finally {
       setLoading(false)
       hideLoader()

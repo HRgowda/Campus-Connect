@@ -5,7 +5,7 @@ import { Upload, FileText, Target, Search, CheckCircle } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import axios from "axios"
-import { toast } from "sonner"
+import { showSuccessToast, showErrorToast } from "@/lib/toastUtils"
 import ResumeAnalysis from "@/components/students/ResumeAnalysis"
 import { useLoader } from "@/app/context/LoaderContext"
 
@@ -51,12 +51,12 @@ export default function ResumeAnalyzerPage() {
           const message = error.response?.data?.detail;
 
           if (status === 429) {
-            toast.error(message || "Too many requests. Try again later.");
+            showSuccessToast(message || "Too many requests. Try again later.");
           } else {
-            toast.error(message || defaultMessage);
+            showSuccessToast(message || defaultMessage);
           }
         } else {
-          toast.error(defaultMessage);
+          showSuccessToast(defaultMessage);
         }
       }
     finally {

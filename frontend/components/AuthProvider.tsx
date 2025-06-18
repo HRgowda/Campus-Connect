@@ -3,12 +3,15 @@ import { useEffect, useState, ReactNode, useRef } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import axiosInstance from "@/lib/axios"
 import AuthContext from "@/app/context/AuthContext"
+import { useAtom } from "jotai"
+import { userAtom } from "@/app/atoms/atoms"
 
 interface User {
   id: string
   email?: string
   usn?: string
-  role: "student" | "professor"
+  role: "student" | "professor", 
+  name: string
 }
 
 interface Props { children: ReactNode }
@@ -19,6 +22,7 @@ export default function AuthProvider({ children }: Props) {
   const router = useRouter()
   const pathname = usePathname()
   const hasRedirected = useRef(false)
+  const [, setUserAtom] = useAtom(userAtom)
 
   useEffect(() => {
     if (!hasRedirected.current) checkAuth()
@@ -29,6 +33,14 @@ export default function AuthProvider({ children }: Props) {
       const res = await axiosInstance.get("/me")
       const userData: User = res.data
       setUser(userData)
+
+      setUserAtom({
+        id: userData.id,
+        name: userData.name,
+        email: userData.email ?? null,
+        role: userData.role
+      }) // global atom to store user data
+      
       localStorage.setItem("role", userData.role)
 
       if (!hasRedirected.current) {

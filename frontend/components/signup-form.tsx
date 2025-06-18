@@ -14,8 +14,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
-import { boolean } from "zod"
-import { toast } from "sonner"
+import { showSuccessToast, showErrorToast } from "@/lib/toastUtils"
 
 type SignupFormProps = React.ComponentProps<"div"> & {
   userType: "student" | "professor"
@@ -42,15 +41,7 @@ export function SignupForm({ className, userType, ...props }: SignupFormProps) {
 
       const response = await axios.post(endpoint, payload)
 
-      toast(
-        "Account created successfully!", {
-          style:{
-            backgroundColor: "#14532D",
-            color: "#fff",
-            border: "1px solid #4ADE80",
-          }
-        }
-      )
+      showSuccessToast("Account created successfully!")
 
       setTimeout(() => {
         router.push(userType == "student" ? "/student/signin" : "/professor/signin")
@@ -58,13 +49,7 @@ export function SignupForm({ className, userType, ...props }: SignupFormProps) {
     } catch (error: any) {
       const errorMessage = error?.response?.data?.detail || "Signup failed, please try again"
 
-      toast(errorMessage, {
-        style: {
-          backgroundColor: "#450a0a",
-          color: "#fff",
-          border: "1px solid #f87171"
-        }
-      })
+      showErrorToast(errorMessage)
     } finally {
       setLoading(false)
     }

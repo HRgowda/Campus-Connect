@@ -10,12 +10,19 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
       <SidebarProvider>
-        <div className="flex min-h-screen">
+        <div className="flex min-h-screen w-full">
+          {/* Sidebar */}
+          <div className="flex-shrink-0">
             <AppSidebar userType="student" />
+          </div>
+
+          {/* Content area */}
+          <div className="flex flex-col flex-1 w-full">
             <SidebarTrigger className="pt-8 pl-3" />
-          <main className="flex-1 overflow-hidden">
-            {children}
-          </main>
+            <main className="flex-1 w-full overflow-auto px-4 py-6">
+              {children}
+            </main>
+          </div>
         </div>
         <Toaster />
       </SidebarProvider>

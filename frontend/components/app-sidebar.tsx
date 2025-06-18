@@ -25,8 +25,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/lib/axios"
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { showSuccessToast } from "@/lib/toastUtils";
 
 interface AppSidebarProps {
   userType: "student" | "professor";
@@ -41,7 +41,7 @@ export function AppSidebar({ userType }: AppSidebarProps) {
     ? [
         { title: "Home", icon: LayoutDashboard, url: "/student/home" },
         { title: "Campus Feed", icon: Home, url: "/student/feed" },
-        { title: "Channels", icon: Users, url: "/student/channels" },
+        { title: "Channels", icon: Users, url: "/student/channel" },
         { title: "Notes & Resources", icon: BookText, url: "/student/resources" },
         { title: "Resume Analyzer", icon: FilePlus, url: "/student/resume_analyzer" },
         { title: "Feedback Portal", icon: MessageCircle, url: "/student/feedback" },
@@ -75,13 +75,7 @@ export function AppSidebar({ userType }: AppSidebarProps) {
 
       localStorage.removeItem("role")
 
-      toast("Logged out successfully!", {
-        style: {
-          backgroundColor: "#14532D",
-          color: "#fff",
-          border: "1px solid #4ADE80",
-        }
-      })
+      showSuccessToast("Logged out successfully!")
 
       if (userType == "student") {
         window.location.href = "/student/signin"
