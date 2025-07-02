@@ -66,7 +66,8 @@ class ProfessorAuthService:
       id = professor.id,
       email = professor.email,
       usn = None,
-      role = "professor"
+      role = "professor",
+      name = professor.name
     )
   
   def login_Professor(self, data: ProfessorLogin) -> Token:
