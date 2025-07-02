@@ -75,7 +75,7 @@ export default function ResumeAnalyzerPage() {
       {analysis ? (
         <ResumeAnalysis analysis={analysis} onClose={handleCloseAnalysis} />
       ) : (
-        <div className="min-h-screen p-18 w-[calc(100%-6rem)] mx-3 w-full text-white overflow-x-hidden overflow-y-hidden">
+        <div className="min-h-screen w-[calc(100%-6rem)] mx-3 w-full text-white overflow-x-hidden overflow-y-hidden">
           {/* Header Section */}
           <div className="text-center mb-12">
             <div className="flex items-center justify-center mb-4">

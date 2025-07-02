@@ -1,9 +1,48 @@
 "use client"
 
 import ChannelComponent from "@/components/channel/Channels"
-import { Button } from "@/components/ui/button" // if your button is used inside ChannelComponent
+import ChannelCard from "@/components/channel/ChannelCard"
+import axiosInstance from "@/lib/axios"
+import { useEffect, useState } from "react"
+import { useAtom } from "jotai"
+import { userAtom } from "@/app/atoms/atoms"
+
+interface ChannelDataProps {
+  id: string
+  name: string
+  description: string
+  created_at: string
+  created_by_role: string
+  created_by_id: string
+  isPrivate: boolean
+}
 
 export default function ChannelPage() {
+  const [channelData, setChannelData] = useState<ChannelDataProps[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const [user] = useAtom(userAtom)
+
+  useEffect(() => {
+    const getChannels = async () => {
+      try {
+        const res = await axiosInstance.get<ChannelDataProps[]>("/channel/public_channels", {
+          params: {
+            memberId: user?.id
+          }
+        })
+        setChannelData(res.data)
+      } catch (err) {
+        console.error("Failed to fetch channels:", err)
+        setError(true)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    getChannels()
+  }, [user])
+
   return (
     <div className="w-full">
       {/* Header Section */}
@@ -17,10 +56,27 @@ export default function ChannelPage() {
         <ChannelComponent />
       </div>
 
-      {/* You can optionally add empty state or grid later */}
-      {/* <div className="text-center text-white/50 mt-20">
-        No channels yet. Start by creating one!
-      </div> */}
+      {/* States */}
+      {loading ? (
+        <p className="text-white/70">Loading channels...</p>
+      ) : error ? (
+        <p className="text-red-500">Failed to load channels.</p>
+      ) : channelData.length === 0 ? (
+        <p className="text-white/70">No public channels available.</p>
+      ) : (
+        <div className="p-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {channelData.map((channel) => (
+            <ChannelCard
+              key={channel.id}
+              channelName={channel.name}
+              channelDescription={channel.description}
+              createdAt={new Date(channel.created_at).toLocaleString()} // ✅ Fixes Invalid Date
+              adminName={channel.created_by_role} // TEMP until admin name is returned by API
+              adminAvatar="https://example.com/avatar.jpg"
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
