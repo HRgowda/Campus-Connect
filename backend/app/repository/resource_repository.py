@@ -2,7 +2,7 @@
 
 from sqlalchemy.orm import Session
 from app.models import Subjects, Resources
-from app.schemas import AddSubject, UploadResource, getSubjectSchema
+from app.schemas import AddSubject, UploadResource, getSubjectSchema, getResourceSchema
 from typing import Optional
 from sqlalchemy import select
 
@@ -27,6 +27,7 @@ class Subject:
     query = select(Subjects).where(Subjects.semester == semester)
     return self.db.execute(query).scalars().all()
   
+  
   def subject_exists_by_name_or_code(self, name: str, code: str) -> Optional[Subjects]:
     query = select(Subjects).where(
       (Subjects.subjectCode == code) | (Subjects.subjectName == name)
@@ -44,3 +45,7 @@ class Resource:
     self.db.commit()
     self.db.refresh(resource)
     return resource
+
+  def getResource(self, subjectId: str) -> list[getResourceSchema]:
+    query = select(Resources).where(Resources.subjectId == subjectId)
+    return self.db.execute(query).scalars().all()
