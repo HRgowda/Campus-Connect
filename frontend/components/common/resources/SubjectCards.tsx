@@ -1,15 +1,16 @@
 "use client"
 
-import { useAtom, useSetAtom } from "jotai"
-import { resourceAtom } from "@/app/atoms/atoms"
+import { useAtom } from "jotai"
+import { resourceAtom, userAtom, selectedSubjectAtom } from "@/app/atoms/atoms"
 import { Card, CardContent } from "@/components/ui/card"
 import axiosInstance from "@/lib/axios"
 import { useEffect, useState } from "react"
-import { userAtom } from "@/app/atoms/atoms"
+import Resources from "./Resources"
 
 type Subject = {
   subjectName: string
   subjectCode: string
+  id: string
 }
 
 export default function SubjectCards() {
@@ -18,26 +19,28 @@ export default function SubjectCards() {
   const role = user?.role
   const semesterKey = selectedResource?.semester ?? ""
   const [subjects, setSubjects] = useState<Subject[] | []>([])
+  const [selectedSubject, setSelectedSubject] = useAtom(selectedSubjectAtom)
 
   useEffect(() => {
     const fetchSubject = async () => {
-      try{
+      try {
         const response = await axiosInstance.get("/subjects", {
-          params: { // this is a get request , data is passed via query parameters.
-            semester: semesterKey
-          }
-        }) 
+          params: { semester: semesterKey }
+        })
         setSubjects(response.data)
       } catch (error) {
         console.error("Error fetching subject", error)
       }
     }
-    
-    if (semesterKey){
+
+    if (semesterKey) {
       fetchSubject()
     }
-
   }, [semesterKey])
+
+  const handleSubjectClick = async (subject: Subject) => {
+    setSelectedSubject(subject)
+  }
 
   if (!selectedResource) {
     return (
@@ -47,10 +50,19 @@ export default function SubjectCards() {
         </p>
       </div>
     )
-  }  
+  }
+
+  // Show Resources when a subject is selected
+  if (selectedSubject) {
+    return <Resources />
+  }
 
   if (subjects.length === 0) {
-    return <p className="text-white/60 text-center text-2xl font-semibold flex flex-col justify-center items-center h-[calc(100vh-200px)]">No subjects available for this semester.</p>
+    return (
+      <p className="text-white/60 text-center text-2xl font-semibold flex flex-col justify-center items-center h-[calc(100vh-200px)]">
+        No subjects available for this semester.
+      </p>
+    )
   }
 
   return (
@@ -61,11 +73,9 @@ export default function SubjectCards() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 mt-6 py-8">
         {subjects.map((subject: Subject, index: number) => (
           <div
-            key={subject.subjectCode || index}
+            key={subject.id || index}
             className="cursor-pointer transition-transform hover:scale-[1.02]"
-            onClick={() => {
-              console.log(`Selected subject: ${subject}`)
-            }}
+            onClick={() => handleSubjectClick(subject)}
           >
             <Card className="border border-white/10 hover:border-white/30 shadow-md transition-colors">
               <CardContent className="p-5">

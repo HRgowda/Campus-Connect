@@ -3,6 +3,7 @@
 import SemesterSelector from "@/components/common/resources/Selector";
 import SubjectCards from "@/components/common/resources/SubjectCards";
 import AddSubjectModal from "@/components/common/resources/AddSubjectModal";
+import AddResourceModal from "@/components/common/resources/AddResourceModal";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
 import { userAtom, resourceAtom } from "@/app/atoms/atoms";
@@ -21,6 +22,7 @@ export default function ProfessorResourcesPage() {
   const semesterSelected = Boolean(semester?.semester);
 
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openResourceModal, setOpenResourceModal] = useState<boolean>(false);
 
   const handleSubmit = (data: SubjectData) => {
     console.log("New subject added:", data);
@@ -41,6 +43,12 @@ export default function ProfessorResourcesPage() {
               Add Subject +
             </Button>
           )}
+            {/* <Button
+              className="border border-white/70 cursor-pointer hover:bg-white/20"
+              onClick={() => setOpenResourceModal(true)}
+            >
+              Add Resource +
+            </Button> */}
         </div>
       </div>
       <SubjectCards />
@@ -49,6 +57,10 @@ export default function ProfessorResourcesPage() {
         onClose={() => setOpenModal(false)}
         onSubmit={handleSubmit}
       />
+      {/* <AddResourceModal
+        isOpen={openResourceModal}
+        onClose={() => setOpenResourceModal(false)}
+      /> */}
     </div>
   );
 }
