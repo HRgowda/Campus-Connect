@@ -14,14 +14,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 # Import your Base with models imported inside
 from app.database import Base
-from app.models.user import Students, Professors
-from app.models.channel import Channel, ChannelMember, Message
+from app import models
 
 # Alembic Config object, gives access to .ini file settings
 config = context.config
 
 # Set the database URL from environment or default
-database_url = os.getenv("DATABASE_URL", "sqlite:///./campus_connect.db")
+database_url = os.getenv("DATABASE_URL")
 config.set_main_option("sqlalchemy.url", database_url)
 
 # Setup logging config from alembic.ini
