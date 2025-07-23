@@ -1,4 +1,4 @@
-export type Subject = {
+type Subject = {
   name: string
   code: string
 }

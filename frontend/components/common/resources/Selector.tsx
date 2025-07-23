@@ -11,8 +11,8 @@ import { useAtom } from "jotai"
 import { resourceAtom } from "@/app/atoms/atoms"
 
 const semesters = [
-  { value: "1", name: "Physics Cycle" },
-  { value: "2", name: "Chemistry Cycle" },
+  { value: "P", name: "Physics Cycle" },
+  { value: "C", name: "Chemistry Cycle" },
   { value: "3", name: "3rd Semester" },
   { value: "4", name: "4th Semester" },
   { value: "5", name: "5th Semester" },

@@ -50,7 +50,7 @@ export function AppSidebar({ userType }: AppSidebarProps) {
         { title: "Home", icon: LayoutDashboard, url: "/professor/home" },
         { title: "Campus Feed", icon: Home, url: "/professor/feed" },
         { title: "Channels", icon: Users, url: "/professor/channels" },
-        { title: "Upload Resources", icon: FilePlus, url: "/professor/upload" },
+        { title: "Notes & Resources", icon: FilePlus, url: "/professor/resources" },
         { title: "Student Feedback", icon: NotebookPen, url: "/professor/feedbacks" },
       ];
 
