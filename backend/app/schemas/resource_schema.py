@@ -12,7 +12,13 @@ class AddSubject(BaseModel):
   
 class UploadResource(BaseModel):
   
-    resourceName: str
-    resourceType: str
-    resourceUrl: str
-    subjectId: UUID
+  resourceName: str
+  resourceType: str
+  resourceUrl: str
+  subjectId: UUID
+    
+class getSubjectSchema(BaseModel):
+  
+  subjectName: str
+  subjectCode: str
+  semester: str

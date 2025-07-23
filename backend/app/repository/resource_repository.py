@@ -2,7 +2,7 @@
 
 from sqlalchemy.orm import Session
 from app.models import Subjects, Resources
-from app.schemas import AddSubject, UploadResource
+from app.schemas import AddSubject, UploadResource, getSubjectSchema
 from typing import Optional
 from sqlalchemy import select
 
@@ -22,6 +22,10 @@ class Subject:
     self.db.commit()
     self.db.refresh(subject)
     return subject
+  
+  def get_Subject(self, semester: str) -> list[getSubjectSchema]:
+    query = select(Subjects).where(Subjects.semester == semester)
+    return self.db.execute(query).scalars().all()
   
   def subject_exists_by_name_or_code(self, name: str, code: str) -> Optional[Subjects]:
     query = select(Subjects).where(
