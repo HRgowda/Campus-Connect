@@ -1,5 +1,6 @@
 from .user_schema import CreateStudent, CreateProfessor, UserResponse, Token, StudentLogin, ProfessorLogin
 from .channel_schema import CreateChannel
+from .resource_schema import AddSubject, UploadResource
 
 __all__ = [
   "CreateStudent",
@@ -8,5 +9,7 @@ __all__ = [
   "ProfessorLogin",
   "UserResponse",
   "Token",
-  "CreateChannel"
+  "CreateChannel",
+  "AddSubject",
+  "UploadResource"
 ]

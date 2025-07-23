@@ -2,6 +2,7 @@
 
 from .user import Students, Professors
 from .channel import Channel, ChannelMember, Message, CreatorRoleEnum, MessageTypeEnum
+from .resources import Subjects, Resources
 
 __all__ = [
   "Students",
@@ -10,5 +11,7 @@ __all__ = [
   "ChannelMember",
   "Message",
   "CreatorRoleEnum",
-  "MessageTypeEnum"
+  "MessageTypeEnum",
+  "Subjects",
+  "Resources"
 ]
