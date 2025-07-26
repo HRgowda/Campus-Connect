@@ -6,7 +6,7 @@ import AddSubjectModal from "@/components/common/resources/AddSubjectModal";
 import AddResourceModal from "@/components/common/resources/AddResourceModal";
 import { Button } from "@/components/ui/button";
 import { useAtom } from "jotai";
-import { userAtom, resourceAtom } from "@/app/atoms/atoms";
+import { userAtom, resourceAtom, selectedSubjectAtom } from "@/app/atoms/atoms";
 import { useState } from "react";
 
 interface SubjectData {
@@ -18,8 +18,10 @@ interface SubjectData {
 export default function ProfessorResourcesPage() {
   const [user] = useAtom(userAtom);
   const [semester] = useAtom(resourceAtom);
+  const [selectedSubject] = useAtom(selectedSubjectAtom);
   const role = user?.role;
   const semesterSelected = Boolean(semester?.semester);
+  const subjectSelected = Boolean(selectedSubject?.id);
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openResourceModal, setOpenResourceModal] = useState<boolean>(false);
@@ -35,7 +37,7 @@ export default function ProfessorResourcesPage() {
         <h1 className="text-3xl text-center">Notes & Learning Resources</h1>
         <div className="flex gap-4">
           <SemesterSelector />
-          {role === "professor" && semesterSelected && (
+          {role === "professor" && semesterSelected && !subjectSelected &&(
             <Button
               className="border border-white/70 cursor-pointer hover:bg-white/20"
               onClick={() => setOpenModal(true)}
@@ -43,24 +45,25 @@ export default function ProfessorResourcesPage() {
               Add Subject +
             </Button>
           )}
-            {/* <Button
+          {role === "professor" && semesterSelected && subjectSelected && (
+            <Button
               className="border border-white/70 cursor-pointer hover:bg-white/20"
               onClick={() => setOpenResourceModal(true)}
             >
               Add Resource +
-            </Button> */}
+            </Button>
+          )}
         </div>
       </div>
       <SubjectCards />
       <AddSubjectModal
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
-        onSubmit={handleSubmit}
       />
-      {/* <AddResourceModal
+      <AddResourceModal
         isOpen={openResourceModal}
         onClose={() => setOpenResourceModal(false)}
-      /> */}
+      />
     </div>
   );
 }

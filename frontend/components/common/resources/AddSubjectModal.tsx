@@ -16,7 +16,6 @@ interface SubjectData {
 interface AddSubjectModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: SubjectData) => void;
 }
 
 const semesters = [
@@ -30,7 +29,7 @@ const semesters = [
   { value: "8", name: "8th Semester" },
 ];
 
-export default function AddSubjectModal({ isOpen, onClose, onSubmit }: AddSubjectModalProps) {
+export default function AddSubjectModal({ isOpen, onClose }: AddSubjectModalProps) {
   const [subjectName, setSubjectName] = useState<string>('');
   const [subjectCode, setSubjectCode] = useState<string>('');
   const [resource] = useAtom(resourceAtom);
