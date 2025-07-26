@@ -44,3 +44,9 @@ class Token(BaseModel):
   
   access_token: str
   token_type: str = "bearer"
+  
+class FetchProfessor(BaseModel):
+  """Schema to fecth all professors"""
+  
+  name: str
+  email: str

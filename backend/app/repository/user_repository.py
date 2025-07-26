@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import select
 from app.schemas import CreateStudent, CreateProfessor
 from app.models import Students, Professors
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
 from app.utils import hash_password
 
@@ -69,3 +69,7 @@ class ProfessorRepository:
   
   def exists_by_email(self, email: str) -> bool:
     return self.get_by_email(email) is not None
+  
+  def fetchAllProfessor(self) -> List[Professors]:
+    query = select(Professors)
+    return self.db.execute(query).scalars().all()
