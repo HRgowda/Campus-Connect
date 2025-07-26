@@ -40,14 +40,14 @@ class ResourceService:
     with open(file_path, "wb") as f:
       f.write(file.file.read())
       
-    return f"{BASE_URL}/resources/{unique_filename}", file.filename, extension
+    return f"{BASE_URL}/resources/{unique_filename}", extension
     
   def upload_and_create_resource(self, file: UploadFile, data: UploadResource):
     
-    file_url, original_filename, extension = self.save_uploaded_file(file)
+    file_url, extension = self.save_uploaded_file(file)
     
     resource_data = {
-      "resourceName": original_filename,
+      "resourceName": data.resourceName,
       "resourceType": extension,
       "resourceUrl": file_url,
       "subjectId": data.subjectId
