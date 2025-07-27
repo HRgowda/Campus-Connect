@@ -50,3 +50,4 @@ class FetchProfessor(BaseModel):
   
   name: str
   email: str
+  id: UUID

@@ -1,6 +1,6 @@
 """Models package"""
 
-from .user import Students, Professors
+from .user import Students, Professors, ProfessorRatings
 from .channel import Channel, ChannelMember, Message, CreatorRoleEnum, MessageTypeEnum
 from .resources import Subjects, Resources
 

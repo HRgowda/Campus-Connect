@@ -1,6 +1,7 @@
 from .user_schema import CreateStudent, CreateProfessor, UserResponse, Token, StudentLogin, ProfessorLogin, FetchProfessor
 from .channel_schema import CreateChannel
 from .resource_schema import AddSubject, UploadResource, getSubjectSchema, getResourceSchema
+from .feedbackSchema import ProfessorRatingSchema
 
 __all__ = [
   "CreateStudent",
@@ -14,5 +15,6 @@ __all__ = [
   "UploadResource",
   "getSubjectSchema",
   "getResourceSchema", 
-  "FetchProfessor"
+  "FetchProfessor",
+  "ProfessorRatingSchema"
 ]
