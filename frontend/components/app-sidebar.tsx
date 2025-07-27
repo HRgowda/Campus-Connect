@@ -44,7 +44,7 @@ export function AppSidebar({ userType }: AppSidebarProps) {
         { title: "Channels", icon: Users, url: "/student/channel" },
         { title: "Notes & Resources", icon: BookText, url: "/student/resources" },
         { title: "Resume Analyzer", icon: FilePlus, url: "/student/resume_analyzer" },
-        { title: "Feedback Portal", icon: MessageCircle, url: "/student/feedback" },
+        { title: "Feedback Portal", icon: MessageCircle, url: "/student/feedback_portal" },
       ]
     : [
         { title: "Home", icon: LayoutDashboard, url: "/professor/home" },
