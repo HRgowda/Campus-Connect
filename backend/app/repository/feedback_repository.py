@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 from app.schemas import ProfessorRatingSchema
 from app.models import ProfessorRatings
 from typing import List
@@ -20,3 +21,7 @@ class Feedback:
     self.db.commit()
     self.db.refresh(feedback)
     return feedback
+  
+  def getFeedback(self, professorId: str) -> List[ProfessorRatings]:
+    query = select(ProfessorRatings).where(ProfessorRatings.professor_id == professorId)
+    return self.db.execute(query).scalars().all()
