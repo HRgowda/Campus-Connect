@@ -33,16 +33,16 @@ export default function ProfessorFeedbackPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen p-4 bg-black/90">
+      <div className="min-h-screen p-4 bg-background">
         <div className="max-w-6xl mx-auto space-y-8">
           <div className="animate-pulse space-y-8">
-            <div className="h-12 w-80 bg-gray-700 rounded-2xl"></div>
+            <div className="h-12 w-80 bg-muted rounded-2xl"></div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               {[1, 2, 3, 4].map(i => (
-                <div key={i} className="h-40 bg-gray-700 rounded-3xl shadow-lg"></div>
+                <div key={i} className="h-40 bg-muted rounded-3xl shadow-lg"></div>
               ))}
             </div>
-            <div className="h-96 bg-gray-700 rounded-3xl shadow-lg"></div>
+            <div className="h-96 bg-muted rounded-3xl shadow-lg"></div>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@ export default function ProfessorFeedbackPage() {
   }
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen p-4 bg-background">
       <div className="max-w-6xl mx-auto space-y-8">
         <FeedbackHeader />
         <StatsCards data={data} />

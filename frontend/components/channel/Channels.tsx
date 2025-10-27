@@ -25,9 +25,9 @@ export default function ChannelComponent() {
     <div>
       <Button
         onClick={() => setIsModalOpen(true)}
-        className="border border-blue-500 text-lg p-5 rounded-md cursor-pointer hover:border-blue-700 transition-all duration-200 hover:shadow-lg"
+        className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-6 py-3 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-lg border-0"
       >
-        + Create
+        + Create Channel
       </Button>
 
       {isModalOpen && (

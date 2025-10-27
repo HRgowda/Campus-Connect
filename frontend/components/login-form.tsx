@@ -72,11 +72,11 @@ export function LoginForm({ className, userType, ...props }: LoginFormProps) {
   }
 
   return (
-    <div className={cn("flex flex-col gap-6 bg-[#212121e6] text-white", className)} {...props}>
-      <Card className="border-zinc-500 rounded-xl">
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <Card className="border-border rounded-xl shadow-lg">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold text-card-foreground">Login to your account</CardTitle>
+          <CardDescription className="text-muted-foreground">
             {userType === "student"
               ? "Enter your USN and password to login"
               : "Enter your email and password to login"}
@@ -87,50 +87,50 @@ export function LoginForm({ className, userType, ...props }: LoginFormProps) {
             <div className="flex flex-col gap-6">
               {userType === "student" ? (
                 <div className="grid gap-3">
-                  <Label htmlFor="usn">USN</Label>
+                  <Label htmlFor="usn" className="text-sm font-medium text-foreground">USN</Label>
                   <Input
                     id="usn"
                     type="text"
                     placeholder="1DB22IS001"
-                    className="border-zinc-500"
+                    className="border-input"
                     required
                     onChange={(e) => setUsn(e.target.value)}
                   />
                 </div>
               ) : (
                 <div className="grid gap-3">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-sm font-medium text-foreground">Email</Label>
                   <Input
                     id="email"
                     type="email"
                     placeholder="m@example.com"
-                    className="border-zinc-500"
+                    className="border-input"
                     required
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               )}
               <div className="grid gap-3">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-sm font-medium text-foreground">Password</Label>
                 <Input
                   id="password"
                   type="password"
-                  className="border-zinc-500"
+                  className="border-input"
                   required
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full bg-white/90 text-black">
+                <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                   {loading ? "Logging in..." : "Login"}
                 </Button>
               </div>
             </div>
-            <div className="mt-4 text-center text-sm">
+            <div className="mt-4 text-center text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}
               <a
                 href={userType === "student" ? "/student/signup" : "/professor/signup"}
-                className="underline underline-offset-4"
+                className="text-primary hover:text-primary/80 underline underline-offset-4 font-medium"
               >
                 Sign up
               </a>

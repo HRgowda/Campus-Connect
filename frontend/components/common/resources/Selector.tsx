@@ -30,15 +30,15 @@ export default function SemesterSelector() {
         setResourceAtom({semester : value})
       }}
     >
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Semester" />
+      <SelectTrigger className="w-[200px] border-input focus:ring-2 focus:ring-primary focus:border-transparent">
+        <SelectValue placeholder="Select Semester" />
       </SelectTrigger>
       <SelectContent>
         {semesters.map((semester) => (
           <SelectItem
             key={semester.value}
             value={semester.value}
-            className="hover:bg-slate-700 cursor-pointer"
+            className="hover:bg-accent hover:text-accent-foreground cursor-pointer focus:bg-accent focus:text-accent-foreground"
           >
             {semester.name}
           </SelectItem>

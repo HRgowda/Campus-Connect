@@ -19,31 +19,33 @@ export default function ChannelCard({
   adminAvatar,
 }: ChannelCardProps) {
   return (
-    <Card className="w-full max-w-md border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200 text-white">
+    <Card className="w-full max-w-md border border-border shadow-sm hover:shadow-lg transition-all duration-200 bg-card">
       <CardHeader className="flex flex-row items-center gap-3 pb-2">
-        <Hash className="h-5 w-5 " />
-        <CardTitle className="text-lg font-semibold  truncate">
+        <div className="p-2 bg-primary/10 rounded-lg">
+          <Hash className="h-5 w-5 text-primary" />
+        </div>
+        <CardTitle className="text-lg font-semibold text-card-foreground truncate">
           {channelName}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="flex items-start gap-2">
-          <Info className="h-4 w-4  mt-1 flex-shrink-0" />
-          <p className="text-sm  line-clamp-3">
+      <CardContent className="space-y-4">
+        <div className="flex items-start gap-3">
+          <Info className="h-4 w-4 text-muted-foreground mt-1 flex-shrink-0" />
+          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
             {channelDescription}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4  flex-shrink-0" />
-          <span className="text-sm ">
+          <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+          <span className="text-sm text-muted-foreground">
             {createdAt}
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <User className="h-4 w-4  flex-shrink-0" />
+          <User className="h-4 w-4 text-muted-foreground flex-shrink-0" />
           <div className="flex items-center gap-2">
-            <span className="text-sm ">{adminName}</span>
-            <Badge variant="outline" className="text-xs ">
+            <span className="text-sm text-card-foreground font-medium">{adminName}</span>
+            <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
               Admin
             </Badge>
           </div>
@@ -53,7 +55,7 @@ export default function ChannelCard({
         <Button
           variant="outline"
           size="sm"
-          className="w-full  hover:bg-gray-100"
+          className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200"
         >
           Join Channel
         </Button>

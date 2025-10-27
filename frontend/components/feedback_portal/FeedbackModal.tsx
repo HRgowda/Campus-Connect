@@ -54,9 +54,9 @@ export const FeedbackModal = ({
         onClose();
       }}
     >
-      <DialogContent className="max-w-md rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6">
+      <DialogContent className="max-w-md rounded-2xl border border-border bg-card p-6">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-white">
+          <DialogTitle className="text-xl font-semibold text-card-foreground">
             Feedback for {professorName}
           </DialogTitle>
         </DialogHeader>
@@ -69,20 +69,20 @@ export const FeedbackModal = ({
                 type="button"
                 onClick={() => setRating(star)}
                 aria-label={`Rate ${star} star${star > 1 ? "s" : ""}`}
-                className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full transition-transform duration-200 ease-in-out hover:scale-110"
+                className="focus:outline-none focus:ring-2 focus:ring-primary rounded-full transition-transform duration-200 ease-in-out hover:scale-110"
               >
                 <Star
                   size={36}
                   fill={rating >= star ? "#facc15" : "#d1d5db"}
                   stroke={rating >= star ? "#facc15" : "#d1d5db"}
-                  className="text-yellow-500 dark:text-yellow-400"
+                  className="text-yellow-500"
                 />
               </button>
             ))}
           </div>
 
           {rating > 0 && (
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
+            <p className="text-sm font-medium text-muted-foreground">
               {ratingLabels[rating - 1]}
             </p>
           )}
@@ -91,7 +91,7 @@ export const FeedbackModal = ({
         <Button
           disabled={rating === 0 || loading}
           onClick={handleSubmit}
-          className="w-full rounded-lg bg-blue-600 hover:bg-blue-700 text-white py-2.5 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground py-2.5 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Submitting..." : "Submit Feedback"}
         </Button>

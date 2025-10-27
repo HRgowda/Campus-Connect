@@ -17,9 +17,9 @@ export default function StudentLayout({ children }: { children: ReactNode }) {
           </div>
 
           {/* Content area */}
-          <div className="flex flex-col flex-1 w-full">
-            <SidebarTrigger className="pt-8 pl-3" />
-            <main className="flex-1 w-full overflow-auto px-4 py-6">
+          <div className="flex flex-col flex-1 w-full bg-background">
+            <SidebarTrigger className="pt-8 pl-3 text-foreground hover:bg-accent" />
+            <main className="flex-1 w-full overflow-auto px-6 py-8 bg-gradient-to-br from-background to-muted/20">
               {children}
             </main>
           </div>

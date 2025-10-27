@@ -22,14 +22,14 @@ export default function RatingChart({ data }: RatingChartProps) {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
-        <div className="bg-gray-800/90 !important rounded-2xl p-6 border border-gray-700 backdrop-blur-sm">
+        <div className="bg-card/95 rounded-2xl p-6 border border-border backdrop-blur-sm shadow-xl">
           <div className="flex items-center gap-3 mb-3">
-            <BarChart3 size={20} className="text-yellow-400 fill-yellow-400" />
-            <span className="font-bold text-lg text-gray-100">{data.label}</span>
+            <BarChart3 size={20} className="text-primary fill-primary" />
+            <span className="font-bold text-lg text-card-foreground">{data.label}</span>
           </div>
-          <p className="text-gray-300 mb-2">Rating: {label} stars</p>
-          <p className="font-bold text-2xl text-gray-100 mb-1">{payload[0].value} responses</p>
-          <p className="text-gray-400">{data.percentage}% of total</p>
+          <p className="text-muted-foreground mb-2">Rating: {label} stars</p>
+          <p className="font-bold text-2xl text-card-foreground mb-1">{payload[0].value} responses</p>
+          <p className="text-muted-foreground">{data.percentage}% of total</p>
         </div>
       );
     }
@@ -37,14 +37,14 @@ export default function RatingChart({ data }: RatingChartProps) {
   };
 
   return (
-    <Card className="overflow-hidden border border-white/50 shadow-none">
-      <CardHeader>
+    <Card className="overflow-hidden border border-border shadow-xl bg-card">
+      <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-3xl font-bold text-gray-100">Rating Distribution</CardTitle>
-            <p className="text-gray-400 mt-2 text-lg">Breakdown of all feedback ratings</p>
+            <CardTitle className="text-3xl font-bold text-card-foreground">Rating Distribution</CardTitle>
+            <p className="text-muted-foreground mt-2 text-lg">Breakdown of all feedback ratings</p>
           </div>
-          <Badge className="bg-gradient-to-r from-indigo-600 to-purple-700 text-gray-100 border-0 px-4 py-2 text-sm font-semibold shadow-lg">
+          <Badge className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground border-0 px-4 py-2 text-sm font-semibold shadow-lg">
             {totalRatings} Total Reviews
           </Badge>
         </div>
@@ -57,11 +57,11 @@ export default function RatingChart({ data }: RatingChartProps) {
                 dataKey="rating" 
                 tickFormatter={(value) => `${value} ⭐`}
                 className="text-sm"
-                tick={{ fill: '#9ca3af' }}
+                tick={{ fill: 'hsl(var(--muted-foreground))' }}
               />
               <YAxis 
                 className="text-sm" 
-                tick={{ fill: '#9ca3af' }}
+                tick={{ fill: 'hsl(var(--muted-foreground))' }}
               />
               <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
               <Bar 
@@ -76,14 +76,14 @@ export default function RatingChart({ data }: RatingChartProps) {
             </BarChart>
           </ResponsiveContainer>
         ) : (
-          <div className="h-96 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl pointer-events-none">
+          <div className="h-96 flex items-center justify-center bg-gradient-to-br from-muted/30 to-muted/50 rounded-2xl pointer-events-none border border-border">
             <div className="text-center space-y-6">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-800 to-purple-800 flex items-center justify-center mx-auto shadow-lg">
-                <BarChart3 className="w-10 h-10 text-indigo-400" />
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center mx-auto shadow-lg border border-primary/20">
+                <BarChart3 className="w-10 h-10 text-primary" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-gray-100">No feedback yet</h3>
-                <p className="text-gray-400 text-lg mt-2">Ratings will appear here once students provide feedback</p>
+                <h3 className="text-2xl font-bold text-card-foreground">No feedback yet</h3>
+                <p className="text-muted-foreground text-lg mt-2">Ratings will appear here once students provide feedback</p>
               </div>
             </div>
           </div>
