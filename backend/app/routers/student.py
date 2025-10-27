@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, status, Response, UploadFile, File, HTTP
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from app.database import get_db
-from app.schemas import CreateStudent, UserResponse, StudentLogin, Token
+from app.repository import StudentRepository
+from app.schemas import CreateStudent, UserResponse, StudentLogin, Token, CreateStudentProfile
 from app.services.auth_service import StudentAuthService
 from app.services.resume_analyzer import extract_text_from_docx, extract_text_from_pdf, analyze_resume_with_gemini
 from app.utils import limiter  
@@ -33,7 +34,7 @@ async def signin(response: Response, student_data: StudentLogin, db: Session = D
     return token
 
 @router.post("/analyze-resume")
-@limiter.limit("1/15minute")  # rate limiter
+# @limiter.limit("1/15minute")  # rate limiter
 async def analyze_resume(request: Request, file: UploadFile = File(...)):
     if file.content_type not in [
         "application/pdf",
@@ -53,3 +54,28 @@ async def analyze_resume(request: Request, file: UploadFile = File(...)):
         "filename": file.filename,
         "analysis": analysis
     })
+
+@router.get("/test-gemini")
+async def test_gemini():
+    """Debug endpoint to test Gemini model availability"""
+    from app.services.resume_analyzer import list_available_models, model, GEMINI_API_KEY
+    
+    result = {
+        "api_key_configured": bool(GEMINI_API_KEY),
+        "model_initialized": model is not None,
+        "available_models": []
+    }
+    
+    if GEMINI_API_KEY:
+        try:
+            available_models = list_available_models()
+            result["available_models"] = available_models
+        except Exception as e:
+            result["error"] = str(e)
+    
+    return JSONResponse(content=result)
+    
+@router.post("/profile")
+def createProfile(profileData: CreateStudentProfile, db: Session = Depends(get_db)):
+    student = StudentRepository(db)
+    return student.create_student_profile(data = profileData)

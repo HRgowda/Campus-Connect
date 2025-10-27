@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.routers import student, professor, auth, channel, common, feedback
+from app.routers import student, professor, auth, channel, common, feedback, feed, profile
 from app.utils import limiter, rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -46,11 +46,18 @@ app.include_router(auth.router)
 # Feedback portal service
 app.include_router(feedback.router)
 
+# Campus feed service
+app.include_router(feed.router)
+
+# Profile management service
+app.include_router(profile.router)
+
 # Mount the directory to serve files
 # FastAPI by default does not serve static files like PDFs, images, or CSS/JS files. It only serves API endpoints that you explicitly define (like /api/users, /auth/login, etc.)
 # Imagine you placed a file inside a drawer (uploads/resources/myfile.pdf) but never told anyone which drawer to open.
 # FastAPI needs a "map" or "route" to say
 app.mount("/resources", StaticFiles(directory="uploads/resources"), name="resources")
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 @app.get("/")
 async def root():

@@ -2,8 +2,8 @@
 
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from app.schemas import CreateStudent, CreateProfessor
-from app.models import Students, Professors
+from app.schemas import CreateStudent, CreateProfessor, CreateStudentProfile
+from app.models import Students, Professors, StudentProfile, Website
 from typing import Optional, List
 from uuid import UUID
 from app.utils import hash_password
@@ -41,6 +41,33 @@ class StudentRepository:
   def student_exists_by_email(self, email: str) -> bool:
     """Check if student exists by email"""
     return self.get_student_by_email(email) is not None
+  
+  def create_student_profile(self, data: CreateStudentProfile):
+    
+    new_profile = StudentProfile(
+      bio = data.bio,
+      location = data.location,
+      skills = data.skills,
+      student_id = data.student_id
+    )
+    
+    self.db.add(new_profile)
+    self.db.commit()
+    self.db.refresh(new_profile)
+    
+    # Add websites only if provided
+    if data.website:
+      for website in data.website:
+        new_website = Website(
+          name = website.name,
+          url = str(website.url),
+          student_profile_id = new_profile.id
+        )
+        self.db.add(new_website)
+      
+      self.db.commit()
+      
+    return new_profile
   
 class ProfessorRepository:
   """Handles professor-related database operations."""

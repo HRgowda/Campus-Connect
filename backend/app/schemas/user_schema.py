@@ -1,7 +1,8 @@
 """User related Pydantic schemas"""
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, HttpUrl
 from uuid import UUID
+from typing import List, Optional
 
 class CreateStudent(BaseModel):
   """Schema for student registration."""
@@ -51,3 +52,17 @@ class FetchProfessor(BaseModel):
   name: str
   email: str
   id: UUID
+  
+class WebsiteCreate(BaseModel):
+  
+  name: str
+  url: HttpUrl
+  
+class CreateStudentProfile(BaseModel):
+  """Schema to create a student profile"""
+  
+  student_id: UUID
+  bio: str
+  location: str
+  skills: List[str]
+  website: Optional[List[WebsiteCreate]] = None
