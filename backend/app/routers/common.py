@@ -3,6 +3,7 @@ from app.repository import Subject, Resource, ProfessorRepository
 from app.database import get_db
 from sqlalchemy.orm import Session
 from app.schemas import FetchProfessor
+from app.models import Students
 from typing import List
 
 router = APIRouter(
@@ -24,3 +25,17 @@ def fetchResource(subjectId: str, db: Session = Depends(get_db)):
 def fetchProfessors(db: Session = Depends(get_db)):
   professor = ProfessorRepository(db)
   return professor.fetchAllProfessor()
+
+@router.get("/students")
+def fetchStudents(db: Session = Depends(get_db)):
+  """Fetch all students"""
+  students = db.query(Students).all()
+  return [
+    {
+      "id": student.id,
+      "usn": student.usn,
+      "name": student.name,
+      "email": student.email
+    }
+    for student in students
+  ]

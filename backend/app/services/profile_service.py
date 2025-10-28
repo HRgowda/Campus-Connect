@@ -186,3 +186,4 @@ class ProfileService:
             )
             new_profile = self.profile_repo.create_student_profile(create_data)
             return self._format_student_profile_response(new_profile)
+

@@ -71,3 +71,26 @@ def get_current_user(
 
     except JWTError:
         raise HTTPException(status_code=403, detail="Token is invalid or expired")
+
+def get_current_user_from_token(token: str, db: Session):
+    """Get current user from token string"""
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+        email_or_usn = payload.get("sub")
+        role = payload.get("role")
+
+        if email_or_usn is None or role is None:
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+
+        if role == "student":
+            user = db.query(Students).filter(Students.usn == email_or_usn).first()
+        else:
+            user = db.query(Professors).filter(Professors.email == email_or_usn).first()
+
+        if user is None:
+            raise HTTPException(status_code=403, detail="User not found")
+
+        return {"user": user, "role": role}
+
+    except JWTError:
+        raise HTTPException(status_code=403, detail="Token is invalid or expired")

@@ -4,10 +4,16 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.routers import student, professor, auth, channel, common, feedback, feed, profile
+from app.routers import student, professor, auth, channel, common, feedback, feed, profile, channel_router, users
 from app.utils import limiter, rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
+# Import all models to ensure they are registered with SQLAlchemy
+from app.models import Students, Professors, StudentProfile, Website
+from app.models.feed import CampusFeed, FeedLike, FeedComment, FeedShare
+from app.models.channel import Channel, ChannelMember, Message, MessageReaction, PinnedMessage, ChannelInvite
+
+# Create all tables
 Base.metadata.create_all(bind = engine)
 
 app = FastAPI(
@@ -51,6 +57,12 @@ app.include_router(feed.router)
 
 # Profile management service
 app.include_router(profile.router)
+
+# Channel management service
+app.include_router(channel_router.router)
+
+# User management service
+app.include_router(users.router)
 
 # Mount the directory to serve files
 # FastAPI by default does not serve static files like PDFs, images, or CSS/JS files. It only serves API endpoints that you explicitly define (like /api/users, /auth/login, etc.)

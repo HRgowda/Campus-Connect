@@ -107,3 +107,4 @@ class ProfileStats(BaseModel):
     total_professors: int
     profiles_completed: int
     completion_rate: float
+
