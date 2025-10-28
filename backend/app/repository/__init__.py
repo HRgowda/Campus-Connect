@@ -4,6 +4,7 @@ from .resource_repository import Subject, Resource
 from .feedback_repository import Feedback
 from .feed_repository import FeedRepository
 from .profile_repository import ProfileRepository
+from .channel_repository import ChannelRepository
 
 __all__ = [
   "StudentRepository",
@@ -13,5 +14,6 @@ __all__ = [
   "Resource",
   "Feedback",
   "FeedRepository",
-  "ProfileRepository"
+  "ProfileRepository",
+  "ChannelRepository"
 ]
