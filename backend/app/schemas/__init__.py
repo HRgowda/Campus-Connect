@@ -1,5 +1,4 @@
 from .user_schema import CreateStudent, CreateProfessor, UserResponse, Token, StudentLogin, ProfessorLogin, FetchProfessor, CreateStudentProfile, WebsiteCreate
-from .channel_schema import CreateChannel
 from .resource_schema import AddSubject, UploadResource, getSubjectSchema, getResourceSchema
 from .feedbackSchema import ProfessorRatingSchema
 from .feed_schema import FeedCreate, FeedUpdate, FeedResponse, FeedListResponse, CommentCreate, CommentResponse, LikeResponse, ShareResponse, FeedFilter, FeedQueryParams, AuthorInfo
@@ -10,6 +9,17 @@ from .profile_schema import (
     WebsiteCreate, WebsiteUpdate, WebsiteResponse,
     ProfileCompletionStatus, ProfileStats
 )
+from .channel_schema import (
+    ChannelCreate, ChannelUpdate, ChannelResponse, ChannelListResponse,
+    ChannelMemberCreate, ChannelMemberUpdate, ChannelMemberResponse,
+    MessageCreate, MessageUpdate, MessageResponse, MessageListResponse,
+    MessageReactionCreate, MessageReactionResponse,
+    PinnedMessageResponse, ChannelInviteCreate, ChannelInviteResponse,
+    ChannelInviteJoin, FileUploadResponse, ChannelSearchParams,
+    MessageQueryParams, WebSocketEvent, MessageEvent, TypingEvent,
+    UserPresenceEvent, ChannelStats, ChannelNotification,
+    ChannelTypeEnum, ChannelRoleEnum, MessageTypeEnum, CreatorRoleEnum
+)
 
 __all__ = [
   "CreateStudent",
@@ -18,7 +28,6 @@ __all__ = [
   "ProfessorLogin",
   "UserResponse",
   "Token",
-  "CreateChannel",
   "AddSubject",
   "UploadResource",
   "getSubjectSchema",
@@ -50,5 +59,35 @@ __all__ = [
   "WebsiteUpdate",
   "WebsiteResponse",
   "ProfileCompletionStatus",
-  "ProfileStats"
+  "ProfileStats",
+  "ChannelCreate",
+  "ChannelUpdate",
+  "ChannelResponse",
+  "ChannelListResponse",
+  "ChannelMemberCreate",
+  "ChannelMemberUpdate",
+  "ChannelMemberResponse",
+  "MessageCreate",
+  "MessageUpdate",
+  "MessageResponse",
+  "MessageListResponse",
+  "MessageReactionCreate",
+  "MessageReactionResponse",
+  "PinnedMessageResponse",
+  "ChannelInviteCreate",
+  "ChannelInviteResponse",
+  "ChannelInviteJoin",
+  "FileUploadResponse",
+  "ChannelSearchParams",
+  "MessageQueryParams",
+  "WebSocketEvent",
+  "MessageEvent",
+  "TypingEvent",
+  "UserPresenceEvent",
+  "ChannelStats",
+  "ChannelNotification",
+  "ChannelTypeEnum",
+  "ChannelRoleEnum",
+  "MessageTypeEnum",
+  "CreatorRoleEnum"
 ]
