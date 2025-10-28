@@ -1,6 +1,6 @@
 export default function HomePage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-8 border border-primary/20">
         <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to Campus Connect</h1>
